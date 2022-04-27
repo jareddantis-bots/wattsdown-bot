@@ -10,3 +10,9 @@ Made with ❤️ by
 - CONSTANTINO, Gabrielle A.
 - DANTIS, Aurel Jared C.
 - PARAGAS, Geri Angela
+
+# Requirements
+
+- Python 3.10+
+- (recommended) A virtual environment for development
+- Packages listed in requirements.txt (install using `pip install -r requirements.txt`)
