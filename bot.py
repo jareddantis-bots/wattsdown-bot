@@ -25,7 +25,7 @@ async def on_message(message: Message):
 
     # Respond to messages
     if message.content.startswith('!hello'):
-        await client.send_message(message.channel, 'Hello!')
+        await message.reply('Hello!')
 
 @client.event
 async def on_command_error(ctx: Context, error: DiscordException):
