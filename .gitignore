@@ -6,3 +6,6 @@
 
 # Downloaded images
 images/**/*
+
+# macOS crap
+**/.DS_Store
