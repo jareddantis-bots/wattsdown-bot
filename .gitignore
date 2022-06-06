@@ -16,3 +16,6 @@ images/**/*
 # Python virtualenv
 .virtualenv
 .venv
+
+# Python cache
+**/__pycache__
