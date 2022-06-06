@@ -2,6 +2,7 @@ from discord import Color
 from discord.ext.commands import Bot, Cog, command, Context
 from scraper.scraper import WattsdownScraper
 from util.embed import WattsdownEmbed as Embed
+from util.paginator import Paginator
 
 
 class DefaultCog(Cog):
@@ -24,16 +25,29 @@ class DefaultCog(Cog):
                 self.scraper.scrape_meralco_outages()
                 self.scraper.ocr_meralco_outages()
             
-            # Iterate through each row in the outages dataframe
+            # Create paginator
+            paginator = Paginator(ctx)
+            embeds = []
+            
+            # Create embed for each outage
             for _, outage in self.scraper.meralco_outages.iterrows():
-                # Create embed
                 outage_embed = Embed(
-                    title='Outage on {}'.format(outage['Outage Date']),
+                    title='Outage in {}'.format(outage['Outage Area']),
                     fields=[
-                        ('Outage time', outage['Outage Time']),
+                        ('Date', outage['Outage Date']),
+                        ('Time', outage['Outage Time']),
                         ('Affected areas', outage['Affected Areas']),
-                        ('Announcement link', 'https://twitter.com/meralco/status/{0}'.format(outage['Tweet ID']))
+                        ('Announcement link', 'https://twitter.com/{0}/status/{1}'.format(
+                            outage['Username'],
+                            outage['Tweet ID']
+                        ))
                     ],
                     color=Color.from_rgb(235, 120, 54)
                 )
-                await outage_embed.send(ctx, as_reply=False)
+                embeds.append(outage_embed.get())
+
+            # Run paginator
+            if len(embeds) > 1:
+                await paginator.run(embeds)
+            else:
+                await ctx.send(embed=embeds[0])
