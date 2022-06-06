@@ -20,6 +20,7 @@ class WattsdownScraper:
         self._meralco_info = pd.DataFrame(columns=[
             'Tweet ID',
             'Username',
+            'Outage Area',
             'Outage Date',
             'Outage Time',
             'Affected Areas'
@@ -73,9 +74,11 @@ class WattsdownScraper:
                 # Crop image and perform OCR
                 outage_date = ocr_cropped(image, (85, 220, width // 2, 350))
                 outage_time = ocr_cropped(image, (85, 385, width // 2, 480))
+                outage_area = ocr_cropped(image, (width // 2, 390, width, 910))
                 outage_areas = ocr_cropped(image, (width // 2, 390, width, 910))
                 new = pd.DataFrame({'Tweet ID':[row["Tweet ID"]],
                                     'Username':[row["Username"]],
+                                    'Outage Area':[outage_area],
                                     'Outage Date':[outage_date],
                                     'Outage Time':[outage_time],
                                     'Affected Areas':[outage_areas]})
