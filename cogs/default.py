@@ -31,8 +31,13 @@ class DefaultCog(Cog):
             
             # Create embed for each outage
             for _, outage in self.scraper.meralco_outages.iterrows():
+                # Truncate title to 256 chars
+                embed_title = 'Outage in {}'.format(outage['Outage Area'])
+                if len(embed_title) > 256:
+                    embed_title = embed_title[:256]
+
                 outage_embed = Embed(
-                    title='Outage in {}'.format(outage['Outage Area']),
+                    title=embed_title,
                     fields=[
                         ('Date', outage['Outage Date']),
                         ('Time', outage['Outage Time']),
