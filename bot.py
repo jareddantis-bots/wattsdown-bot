@@ -1,7 +1,8 @@
-from discord import DiscordException, Message
+from discord import Color, DiscordException, Message
 from discord.ext.commands import Bot, Context
 from dotenv import load_dotenv
 from os import environ
+from util.embed import WattsdownEmbed as Embed
 
 # Load environment variables
 load_dotenv()
@@ -12,10 +13,8 @@ client = Bot(command_prefix='!')
 # Event listeners
 @client.event
 async def on_ready():
-    print('Logged in as')
-    print(client.user.name)
-    print(client.user.id)
-    print('------')
+    print('Logged in as {0}!'.format(client.user))
+    client.load_extension('cogs')
 
 @client.event
 async def on_message(message: Message):
@@ -23,9 +22,11 @@ async def on_message(message: Message):
     if message.author == client.user:
         return
 
-    # Respond to messages
-    if message.content.startswith('!hello'):
-        await message.reply('Hello!')
+    try:
+        await client.process_commands(message)
+    except Exception as e:
+        embed = Embed(color=Color.red(), title=f'Error while processing command', description=e.message)
+        await message.reply(embed=embed.get())
 
 @client.event
 async def on_command_error(ctx: Context, error: DiscordException):
