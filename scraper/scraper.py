@@ -15,7 +15,7 @@ NUM_TWEETS = 25
 
 class WattsdownScraper:
     def __init__(self):
-        self.meralco_twt = sntwitter.TwitterScraper(MERALCO_SEARCH_STR)
+        self.meralco_twt = sntwitter.TwitterSearchScraper(MERALCO_SEARCH_STR)
         self._meralco_df: Optional[pd.DataFrame] = None
         self._meralco_info = pd.DataFrame(columns=[
             'Tweet ID',
@@ -29,7 +29,7 @@ class WattsdownScraper:
     def meralco_outages(self) -> pd.DataFrame:
         return self._meralco_info
     
-    def scrape_meralco(self):
+    def scrape_meralco_outages(self):
         scraped_tweets = []
 
         for i, tweet in enumerate(self.meralco_twt.get_items()):
@@ -57,7 +57,7 @@ class WattsdownScraper:
             'Image URL'
         ])
     
-    def read_meralco(self):
+    def ocr_meralco_outages(self):
         for _, row in self._meralco_df.iterrows():
             # Check if the tweet has an attached image
             if row['Image URL'] is not None:
