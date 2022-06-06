@@ -22,6 +22,7 @@ class DefaultCog(Cog):
             # Check if the scraper's scraped anything yet
             if self.scraper.meralco_outages.size == 0:
                 # Scrape first and perform OCR
+                await ctx.reply('Getting data from Meralco...')
                 self.scraper.scrape_meralco_outages()
                 self.scraper.ocr_meralco_outages()
             
