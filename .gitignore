@@ -9,3 +9,13 @@ images/**/*
 
 # macOS crap
 **/.DS_Store
+
+# Automatic deployment
+.current-rev
+
+# Python virtualenv
+.virtualenv
+.venv
+
+# Python cache
+**/__pycache__
