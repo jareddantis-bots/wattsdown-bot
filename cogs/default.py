@@ -1,5 +1,5 @@
 from discord import Color
-from discord.ext.commands import Bot, Cog, command, Context
+from discord.ext.commands import Bot, BucketType, Cog, command, Context, max_concurrency
 from scraper.scraper import WattsdownScraper
 from util.embed import WattsdownEmbed as Embed
 from util.paginator import Paginator
@@ -17,6 +17,7 @@ class DefaultCog(Cog):
         await hello_embed.send(ctx, as_reply=True)
     
     @command(name='list')
+    @max_concurrency(1, BucketType.default)
     async def list_outages(self, ctx: Context):
         async with ctx.typing():
             # Check if the scraper's scraped anything yet
